@@ -21,7 +21,7 @@ export const getAllBlogsController = async (req, res) => {
         console.log(error);
         return res.status(500).send({
             message: 'Error in getting all user',
-            success: true,
+            success: false,
             error
         })
     }

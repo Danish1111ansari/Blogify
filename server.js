@@ -23,17 +23,17 @@ const app = express();
 
 
 //middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(morgan('dev'));
 
 
-//rest api
-// app.get('/', (req, res) => {
-//     res.status(200).send(
-//         { "message": "hello Danish" }
-//     )
-// });
+// rest api
+app.get('/', (req, res) => {
+    res.status(200).send(
+        { "message": "hello Danish" }
+    )
+});
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/blog', blogRoutes);
 
