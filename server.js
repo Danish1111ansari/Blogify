@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
+import { fileURLToPath } from 'url';
+import path from "path";
 
 // env config
 dotenv.config();
@@ -17,6 +19,9 @@ dotenv.config();
 //Database connect 
 connectDB();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 //rest objejt;
 const app = express();
 
@@ -25,16 +30,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, "./client/build")));
 
 
 // rest api
-app.get('/', (req, res) => {
-    res.status(200).send(
-        { "message": "hello Danish" }
-    )
-});
+
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/blog', blogRoutes);
+
+app.use("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  // res.send("<h1>Welcome to the newbazar</h1>")
+});
 
 
 //port 
